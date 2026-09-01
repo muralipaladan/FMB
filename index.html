@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>KMZ / FMB GroundOverlay & Live GPS Viewer</title>
+  <title>Edakkara Multi-Map Overlay & Live GPS Tool</title>
 
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
@@ -12,9 +13,12 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     body, html {
       height: 100%;
+      width: 100%;
+      overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     #map {
@@ -22,265 +26,433 @@
       width: 100%;
       z-index: 1;
     }
-    .panel {
+
+    /* Top Floating Dashboard */
+    .top-panel {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 8px;
+      left: 8px;
+      right: 8px;
       z-index: 1000;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      max-width: 320px;
-      width: calc(100% - 20px);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 460px;
+      margin: 0 auto;
     }
-    .panel h3 {
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: #333;
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .control-group {
-      margin-bottom: 8px;
+    .header-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1a1a1a;
     }
-    input[type="file"] {
-      width: 100%;
+    .toggle-btn {
+      background: none;
+      border: none;
       font-size: 12px;
+      color: #007bff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .panel-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .panel-body.collapsed {
+      display: none;
+    }
+
+    .file-btn-wrapper {
+      background: #eef4fc;
+      border: 1.5px dashed #007bff;
+      border-radius: 8px;
+      padding: 6px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0056b3;
+    }
+    input[type="file"] { display: none; }
+
+    /* Adjustment Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 11px;
+    }
+    .ctrl-box {
+      background: #f8f9fa;
+      padding: 5px 8px;
+      border-radius: 6px;
+    }
+    .ctrl-box label {
+      display: flex;
+      justify-content: space-between;
+      color: #444;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: #007bff;
+    }
+
+    /* GPS Bottom Card */
+    .gps-bar {
+      position: absolute;
+      bottom: 16px;
+      left: 10px;
+      right: 10px;
+      z-index: 1000;
+      max-width: 460px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .gps-info-box {
+      background: rgba(18, 25, 38, 0.92);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: monospace;
+    }
+    .btn-row {
+      display: flex;
+      gap: 6px;
     }
     .btn {
-      width: 100%;
-      padding: 8px;
-      background-color: #007bff;
-      color: white;
+      flex: 1;
+      padding: 11px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
       cursor: pointer;
-      font-weight: bold;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
-    .btn-stop {
-      background-color: #dc3545;
-    }
-    .btn-stop:hover {
-      background-color: #a71d2a;
-    }
-    .slider-container {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-top: 5px;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
-    .status {
-      font-size: 11px;
-      color: #666;
-      margin-top: 6px;
-      line-height: 1.4;
+    .btn-gps { background: #007bff; color: #fff; }
+    .btn-gps.active { background: #dc3545; }
+    .btn-recenter {
+      background: #ffffff;
+      color: #222;
+      flex: 0 0 44px;
+      font-size: 16px;
+    }
+
+    /* High Precision Pulsing Blue Dot */
+    .gps-dot-container {
+      position: relative;
+      width: 22px;
+      height: 22px;
+    }
+    .gps-dot {
+      width: 13px;
+      height: 13px;
+      background: #007bff;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.9);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .gps-pulse {
+      width: 22px;
+      height: 22px;
+      background: rgba(0, 123, 255, 0.35);
+      border-radius: 50%;
+      animation: pulse-ring 1.8s infinite ease-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <div class="panel">
-    <h3>🗺️ KMZ GroundOverlay & Live GPS</h3>
-    
-    <div class="control-group">
-      <input type="file" id="kmzInput" accept=".kmz,.kml" />
-    </div>
-
-    <div class="slider-container">
-      <label for="opacitySlider">Overlay Opacity:</label>
-      <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.85" />
-    </div>
-
-    <button id="gpsBtn" class="btn">📍 Start Live GPS</button>
-    <div id="status" class="status">KMZ ഫയൽ അപ്‌ലോഡ് ചെയ്യുക...</div>
-  </div>
-
   <div id="map"></div>
 
+  <!-- Top Tool Panel -->
+  <div class="top-panel">
+    <div class="header-row">
+      <span class="header-title">🗺️ എടക്കര സ്കെച്ച് & Cadastre GPS</span>
+      <button class="toggle-btn" id="toggleBtn">Hide</button>
+    </div>
+
+    <div class="panel-body" id="panelBody">
+      <label class="file-btn-wrapper" for="fileInput" id="fileStatus">
+        📁 പുതിയ സ്കെച്ച് / KMZ / TIF അപ്‌ലോഡ് ചെയ്യുക
+      </label>
+      <input type="file" id="fileInput" accept=".tif,.tiff,.jpg,.jpeg,.png,.kmz,.kml" />
+
+      <div class="controls-grid">
+        <div class="ctrl-box">
+          <label>Sketch Opacity <span id="opLabel">80%</span></label>
+          <input type="range" id="opSlider" min="0" max="1" step="0.05" value="0.8" />
+        </div>
+        <div class="ctrl-box">
+          <label>Scale / Size <span id="scaleLabel">1.0x</span></label>
+          <input type="range" id="scaleSlider" min="0.4" max="2.0" step="0.02" value="1.0" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom GPS Action Bar -->
+  <div class="gps-bar">
+    <div class="gps-info-box" id="gpsBox" style="display:none;">
+      <span id="coordVal">Lat: -- , Lng: --</span>
+      <span id="accVal" style="color:#4cd964; font-weight:bold;">±-- m</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gps" id="gpsBtn">📍 Start Live GPS (High Precision)</button>
+      <button class="btn btn-recenter" id="recenterBtn" title="My Location">🎯</button>
+    </div>
+  </div>
+
+  <!-- Leaflet & JSZip -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <script>
-    // 1. Initialize Map (Google Satellite / Hybrid base layer)
+    // 1. Google Hybrid Base Map & Kerala Cadastre
+    const defaultCenter = [11.3819, 75.7878]; // Edakkara Center
     const map = L.map('map', {
+      zoomControl: false,
       maxZoom: 22
-    }).setView([11.3817, 75.7878], 14);
+    }).setView(defaultCenter, 15);
 
-    // Satellite layer (ESRI World Imagery)
-    const esriSatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-      maxZoom: 20
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains:['mt0','mt1','mt2','mt3'],
+      attribution: '&copy; Google Hybrid'
     }).addTo(map);
 
-    // OpenStreetMap as alternative
-    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 19
-    });
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
+
+    const cadastreLayer = L.tileLayer.wms('https://ksrec.in/geoserver/Kerala/wms', {
+      layers: 'Cadastre_Kerala',
+      format: 'image/png',
+      transparent: true,
+      version: '1.1.1',
+      maxZoom: 22,
+      opacity: 0.65
+    }).addTo(map);
 
     L.control.layers({
-      "ESRI Satellite": esriSatellite,
-      "OpenStreetMap": osmLayer
-    }).addTo(map);
+      "Google Hybrid": googleHybrid,
+      "OpenStreetMap": osm
+    }, {
+      "Kerala Cadastre (റവന്യൂ അതിരുകൾ)": cadastreLayer
+    }, { position: 'topright' }).addTo(map);
 
-    let overlayLayer = null;
-    let gpsMarker = null;
-    let accuracyCircle = null;
-    let watchId = null;
+    // 2. Default Coordinates Bounds for Edakkara
+    let baseBounds = [
+      [11.35935030, 75.76554758], // South-West
+      [11.40404935, 75.81024664]  // North-East
+    ];
 
-    const statusEl = document.getElementById('status');
-    const opacitySlider = document.getElementById('opacitySlider');
+    let currentOverlay = null;
+    let currentImgUrl = null;
 
-    // 2. KMZ Parser and GroundOverlay Renderer
-    document.getElementById('kmzInput').addEventListener('change', async function(e) {
+    function renderOverlay(bounds) {
+      if (!currentImgUrl) return;
+      if (currentOverlay) map.removeLayer(currentOverlay);
+
+      currentOverlay = L.imageOverlay(currentImgUrl, bounds, {
+        opacity: parseFloat(document.getElementById('opSlider').value),
+        interactive: true
+      }).addTo(map);
+    }
+
+    // 3. File Loader (.TIF, Image, .KMZ)
+    document.getElementById('fileInput').addEventListener('change', async function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
-      statusEl.innerHTML = "ഫയൽ വായിക്കുന്നു...";
+      document.getElementById('fileStatus').innerText = '📄 ' + file.name;
 
-      try {
-        if (file.name.endsWith('.kmz')) {
-          const zip = await JSZip.loadAsync(file);
-          
-          // KML ഫയൽ കണ്ടെത്തുന്നു
-          let kmlFile = null;
-          zip.forEach((path, zipEntry) => {
-            if (path.toLowerCase().endsWith('.kml')) {
-              kmlFile = zipEntry;
-            }
-          });
+      if (file.name.toLowerCase().endsWith('.kmz')) {
+        const zip = await JSZip.loadAsync(file);
+        let kmlEntry = null;
+        zip.forEach((path, entry) => {
+          if (path.toLowerCase().endsWith('.kml')) kmlEntry = entry;
+        });
 
-          if (!kmlFile) throw new Error("KML file not found inside KMZ!");
+        if (kmlEntry) {
+          const kmlText = await kmlEntry.async('text');
+          const xml = new DOMParser().parseFromString(kmlText, 'text/xml');
+          const overlay = xml.getElementsByTagName('GroundOverlay')[0];
+          if (overlay) {
+            const href = overlay.getElementsByTagName('href')[0].textContent.trim();
+            const n = parseFloat(overlay.getElementsByTagName('north')[0].textContent);
+            const s = parseFloat(overlay.getElementsByTagName('south')[0].textContent);
+            const eLng = parseFloat(overlay.getElementsByTagName('east')[0].textContent);
+            const wLng = parseFloat(overlay.getElementsByTagName('west')[0].textContent);
 
-          const kmlText = await kmlFile.async("text");
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(kmlText, "text/xml");
-
-          // GroundOverlay കണ്ടെത്തുന്നു
-          const groundOverlay = xmlDoc.getElementsByTagName("GroundOverlay")[0];
-          if (!groundOverlay) throw new Error("No GroundOverlay found in this KMZ.");
-
-          const href = groundOverlay.getElementsByTagName("href")[0].textContent.trim();
-          const north = parseFloat(groundOverlay.getElementsByTagName("north")[0].textContent);
-          const south = parseFloat(groundOverlay.getElementsByTagName("south")[0].textContent);
-          const east = parseFloat(groundOverlay.getElementsByTagName("east")[0].textContent);
-          const west = parseFloat(groundOverlay.getElementsByTagName("west")[0].textContent);
-
-          // ZIP-ൽ നിന്ന് ഇമേജ് എക്സ്ട്രാക്റ്റ് ചെയ്യുന്നു
-          const imageFile = zip.file(href) || zip.file(href.replace(/^files\//, ''));
-          if (!imageFile) throw new Error("Overlay image (" + href + ") not found in KMZ.");
-
-          const imgBlob = await imageFile.async("blob");
-          const imgUrl = URL.createObjectURL(imgBlob);
-
-          const bounds = [[south, west], [north, east]];
-
-          if (overlayLayer) map.removeLayer(overlayLayer);
-
-          overlayLayer = L.imageOverlay(imgUrl, bounds, {
-            opacity: parseFloat(opacitySlider.value),
-            interactive: true
-          }).addTo(map);
-
-          map.fitBounds(bounds);
-          statusEl.innerHTML = `✅ <b>Overlay Loaded</b><br>N: ${north.toFixed(4)}, S: ${south.toFixed(4)}<br>E: ${east.toFixed(4)}, W: ${west.toFixed(4)}`;
-
-        } else {
-          statusEl.innerHTML = "ദയവായി .KMZ ഫയൽ അപ്‌ലോഡ് ചെയ്യുക.";
+            baseBounds = [[s, wLng], [n, eLng]];
+            const imgEntry = zip.file(href) || zip.file(href.replace(/^files\//, ''));
+            const blob = await imgEntry.async('blob');
+            currentImgUrl = URL.createObjectURL(blob);
+            renderOverlay(baseBounds);
+            map.fitBounds(baseBounds);
+            return;
+          }
         }
-      } catch (err) {
-        statusEl.innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
       }
+
+      // If Direct Image or TIF
+      currentImgUrl = URL.createObjectURL(file);
+      renderOverlay(baseBounds);
+      map.fitBounds(baseBounds);
     });
 
-    // Opacity control
-    opacitySlider.addEventListener('input', function(e) {
-      if (overlayLayer) {
-        overlayLayer.setOpacity(parseFloat(e.target.value));
-      }
+    // Opacity & Scale Slider Handling
+    document.getElementById('opSlider').addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      document.getElementById('opLabel').innerText = Math.round(v * 100) + '%';
+      if (currentOverlay) currentOverlay.setOpacity(v);
     });
 
-    // 3. High-Accuracy Live GPS Blue Dot Tracking
+    document.getElementById('scaleSlider').addEventListener('input', (e) => {
+      const scale = parseFloat(e.target.value);
+      document.getElementById('scaleLabel').innerText = scale.toFixed(2) + 'x';
+      
+      const centerLat = (baseBounds[0][0] + baseBounds[1][0]) / 2;
+      const centerLng = (baseBounds[0][1] + baseBounds[1][1]) / 2;
+      const halfLat = ((baseBounds[1][0] - baseBounds[0][0]) / 2) * scale;
+      const halfLng = ((baseBounds[1][1] - baseBounds[0][1]) / 2) * scale;
+
+      const scaledBounds = [
+        [centerLat - halfLat, centerLng - halfLng],
+        [centerLat + halfLat, centerLng + halfLng]
+      ];
+      renderOverlay(scaledBounds);
+    });
+
+    // 4. Android GPS Tracker (High Precision)
+    let watchId = null;
+    let gpsMarker = null;
+    let accuracyCircle = null;
+    let userPos = null;
+
     const gpsBtn = document.getElementById('gpsBtn');
+    const recenterBtn = document.getElementById('recenterBtn');
+    const gpsBox = document.getElementById('gpsBox');
+    const coordVal = document.getElementById('coordVal');
+    const accVal = document.getElementById('accVal');
 
-    gpsBtn.addEventListener('click', function() {
+    const blueDotIcon = L.divIcon({
+      className: 'gps-dot-icon',
+      html: '<div class="gps-dot-container"><div class="gps-pulse"></div><div class="gps-dot"></div></div>',
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    });
+
+    gpsBtn.addEventListener('click', () => {
       if (watchId !== null) {
-        // Stop tracking
         navigator.geolocation.clearWatch(watchId);
         watchId = null;
+        gpsBtn.innerText = "📍 Start Live GPS (High Precision)";
+        gpsBtn.classList.remove('active');
+        gpsBox.style.display = 'none';
         if (gpsMarker) map.removeLayer(gpsMarker);
         if (accuracyCircle) map.removeLayer(accuracyCircle);
-        gpsBtn.innerText = "📍 Start Live GPS";
-        gpsBtn.classList.remove('btn-stop');
-        statusEl.innerHTML = "GPS ട്രാക്കിംഗ് നിർത്തി.";
         return;
       }
 
       if (!navigator.geolocation) {
-        alert("നിങ്ങളുടെ ബ്രൗസർ Geolocation സപ്പോർട്ട് ചെയ്യുന്നില്ല.");
+        alert("GPS സപ്പോർട്ട് ലഭ്യമല്ല.");
         return;
       }
 
-      statusEl.innerHTML = "GPS ലൊക്കേഷൻ കണ്ടെത്തുന്നു...";
+      gpsBtn.innerText = "🛑 Stop Live GPS";
+      gpsBtn.classList.add('active');
+      gpsBox.style.display = 'flex';
 
-      const blueDotIcon = L.divIcon({
-        className: 'gps-blue-dot',
-        html: `<div style="
-          width: 14px;
-          height: 14px;
-          background: #007bff;
-          border-radius: 50%;
-          border: 3px solid white;
-          box-shadow: 0 0 8px rgba(0,123,255,0.8);
-        "></div>`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
-      });
+      let firstFix = true;
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          const accuracy = pos.coords.accuracy;
+          const acc = pos.coords.accuracy;
+          userPos = [lat, lng];
 
-          const latlng = [lat, lng];
+          coordVal.innerText = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+          accVal.innerText = `±${Math.round(acc)} m`;
 
           if (!gpsMarker) {
-            gpsMarker = L.marker(latlng, { icon: blueDotIcon }).addTo(map);
-            accuracyCircle = L.circle(latlng, {
-              radius: accuracy,
+            gpsMarker = L.marker(userPos, { icon: blueDotIcon, zIndexOffset: 1000 }).addTo(map);
+            accuracyCircle = L.circle(userPos, {
+              radius: acc,
               color: '#007bff',
+              weight: 1.5,
               fillColor: '#007bff',
-              fillOpacity: 0.15,
-              weight: 1
+              fillOpacity: 0.12
             }).addTo(map);
-
-            map.setView(latlng, 18);
           } else {
-            gpsMarker.setLatLng(latlng);
-            accuracyCircle.setLatLng(latlng);
-            accuracyCircle.setRadius(accuracy);
+            gpsMarker.setLatLng(userPos);
+            accuracyCircle.setLatLng(userPos);
+            accuracyCircle.setRadius(acc);
           }
 
-          statusEl.innerHTML = `📍 <b>Live GPS Active</b><br>Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}<br>Accuracy: ±${Math.round(accuracy)} meters`;
+          if (firstFix) {
+            map.setView(userPos, 18);
+            firstFix = false;
+          }
         },
         (err) => {
-          statusEl.innerHTML = `<span style="color:red">GPS Error: ${err.message}</span>`;
+          alert("GPS സിഗ്നൽ ലഭ്യമായില്ല: " + err.message);
         },
-        {
-          enableHighAccuracy: true,
-          maximumAge: 1000,
-          timeout: 10000
-        }
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
       );
+    });
 
-      gpsBtn.innerText = "🛑 Stop Live GPS";
-      gpsBtn.classList.add('btn-stop');
+    recenterBtn.addEventListener('click', () => {
+      if (userPos) {
+        map.setView(userPos, 19, { animate: true });
+      } else {
+        alert("GPS ഓൺ ചെയ്ത ശേഷം ക്ലിക്ക് ചെയ്യുക.");
+      }
+    });
+
+    // Panel Toggle
+    document.getElementById('toggleBtn').addEventListener('click', function() {
+      const body = document.getElementById('panelBody');
+      if (body.classList.contains('collapsed')) {
+        body.classList.remove('collapsed');
+        this.innerText = 'Hide';
+      } else {
+        body.classList.add('collapsed');
+        this.innerText = 'Show';
+      }
     });
   </script>
 </body>
