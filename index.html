@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Clean Map & GPS</title>
 
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
@@ -43,7 +42,6 @@
       backdrop-filter: blur(6px);
     }
 
-    /* Circular GPS Button (Google Maps Style) */
     .btn-circle {
       width: 42px;
       height: 42px;
@@ -69,7 +67,6 @@
       color: #ffffff;
     }
 
-    /* Folder Icon Upload Button */
     .btn-folder {
       width: 38px;
       height: 38px;
@@ -81,10 +78,6 @@
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      transition: background 0.2s ease;
-    }
-    .btn-folder:hover {
-      background: #e8eaed;
     }
     .btn-folder svg {
       width: 20px;
@@ -95,7 +88,6 @@
       display: none;
     }
 
-    /* Opacity Slider Container with Label */
     .slider-box {
       display: flex;
       align-items: center;
@@ -114,6 +106,61 @@
       accent-color: #1a73e8;
       outline: none;
       cursor: pointer;
+    }
+
+    /* Floating Overlay Fine-Tuning Pad (Right Side) */
+    .nudge-pad {
+      position: absolute;
+      bottom: 24px;
+      right: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 8px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .d-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 34px);
+      grid-template-rows: repeat(3, 34px);
+      gap: 4px;
+      justify-items: center;
+      align-items: center;
+    }
+    .scale-pad {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      padding-top: 6px;
+    }
+    .pad-btn {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: #f1f3f4;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #3c4043;
+      touch-action: manipulation;
+    }
+    .pad-btn:active {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+    .pad-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     /* Live GPS Pulsing Blue Dot */
@@ -154,27 +201,56 @@
 
   <div id="map"></div>
 
-  <!-- Bottom Left Floating Control Strip -->
   <div class="compact-bar">
-    <!-- Google Maps Style Location Crosshair Button -->
-    <button class="btn-circle" id="gpsBtn" title="Current Location">
+    <button class="btn-circle" id="gpsBtn">
       <svg viewBox="0 0 24 24">
         <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
       </svg>
     </button>
 
-    <!-- Folder Icon for Uploading KMZ / Images -->
-    <label class="btn-folder" for="fileInput" title="Upload KMZ / Image">
+    <label class="btn-folder" for="fileInput">
       <svg viewBox="0 0 24 24">
         <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
       </svg>
     </label>
     <input type="file" id="fileInput" accept=".kmz,.kml,.png,.jpg,.jpeg" />
 
-    <!-- Sketch Opacity Slider with Live Percentage -->
-    <div class="slider-box" title="Sketch Opacity">
+    <div class="slider-box">
       <span class="slider-label" id="opLabel">85%</span>
       <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.85" />
+    </div>
+  </div>
+
+  <div class="nudge-pad" id="overlayControls">
+    <div class="d-pad">
+      <div></div>
+      <button class="pad-btn" onclick="nudgeOverlay(0.00003, 0)">
+        <svg viewBox="0 0 24 24"><path d="M12 4l-6 6h4v8h4v-8h4z"/></svg>
+      </button>
+      <div></div>
+
+      <button class="pad-btn" onclick="nudgeOverlay(0, -0.00003)">
+        <svg viewBox="0 0 24 24"><path d="M4 12l6-6v4h8v4h-8v4z"/></svg>
+      </button>
+      <div style="width: 8px; height: 8px; background: #bbb; border-radius: 50%;"></div>
+      <button class="pad-btn" onclick="nudgeOverlay(0, 0.00003)">
+        <svg viewBox="0 0 24 24"><path d="M20 12l-6 6v-4H6v-4h8V6z"/></svg>
+      </button>
+
+      <div></div>
+      <button class="pad-btn" onclick="nudgeOverlay(-0.00003, 0)">
+        <svg viewBox="0 0 24 24"><path d="M12 20l6-6h-4V6h-4v8H6z"/></svg>
+      </button>
+      <div></div>
+    </div>
+
+    <div class="scale-pad">
+      <button class="pad-btn" onclick="scaleOverlay(1.015)">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </button>
+      <button class="pad-btn" onclick="scaleOverlay(0.985)">
+        <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+      </button>
     </div>
   </div>
 
@@ -182,7 +258,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <script>
-    // 1. Map Setup (Google Hybrid & Google Road)
     const map = L.map('map', {
       zoomControl: false,
       maxZoom: 22
@@ -203,10 +278,45 @@
       "Google Road": googleRoadmap
     }, null, { position: 'topright' }).addTo(map);
 
-    // 2. KMZ & Image Parser
     let currentOverlay = null;
+    let overlayBounds = null;
     const opacitySlider = document.getElementById('opacitySlider');
     const opLabel = document.getElementById('opLabel');
+
+    function updateBounds(newBounds) {
+      overlayBounds = newBounds;
+      if (currentOverlay) {
+        currentOverlay.setBounds(overlayBounds);
+      }
+    }
+
+    function nudgeOverlay(dLat, dLng) {
+      if (!overlayBounds) return;
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+      updateBounds(L.latLngBounds(
+        [sw.lat + dLat, sw.lng + dLng],
+        [ne.lat + dLat, ne.lng + dLng]
+      ));
+    }
+
+    function scaleOverlay(factor) {
+      if (!overlayBounds) return;
+      const center = overlayBounds.getCenter();
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+
+      const newSw = [
+        center.lat + (sw.lat - center.lat) * factor,
+        center.lng + (sw.lng - center.lng) * factor
+      ];
+      const newNe = [
+        center.lat + (ne.lat - center.lat) * factor,
+        center.lng + (ne.lng - center.lng) * factor
+      ];
+
+      updateBounds(L.latLngBounds(newSw, newNe));
+    }
 
     document.getElementById('fileInput').addEventListener('change', async function(e) {
       const file = e.target.files[0];
@@ -240,17 +350,17 @@
 
           const blob = await imgEntry.async('blob');
           const imgUrl = URL.createObjectURL(blob);
-          const bounds = [[south, west], [north, east]];
+          overlayBounds = L.latLngBounds([[south, west], [north, east]]);
 
           if (currentOverlay) map.removeLayer(currentOverlay);
-          currentOverlay = L.imageOverlay(imgUrl, bounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
-          map.fitBounds(bounds);
+          currentOverlay = L.imageOverlay(imgUrl, overlayBounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
+          map.fitBounds(overlayBounds);
 
         } else if (file.type.startsWith('image/')) {
           const imgUrl = URL.createObjectURL(file);
-          const bounds = map.getBounds();
+          overlayBounds = map.getBounds();
           if (currentOverlay) map.removeLayer(currentOverlay);
-          currentOverlay = L.imageOverlay(imgUrl, bounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
+          currentOverlay = L.imageOverlay(imgUrl, overlayBounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
         }
       } catch (err) {
         alert(err.message);
@@ -263,11 +373,9 @@
       if (currentOverlay) currentOverlay.setOpacity(val);
     });
 
-    // 3. Google Maps Style High Accuracy Blue Dot GPS
     let watchId = null;
     let gpsMarker = null;
     let accuracyCircle = null;
-
     const gpsBtn = document.getElementById('gpsBtn');
 
     const blueDotIcon = L.divIcon({
@@ -328,7 +436,3 @@
         },
         { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
       );
-    });
-  </script>
-</body>
-</html>
