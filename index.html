@@ -1,3 +1,503 @@
+
+Gemini
+
+Chat
+
+Spark
+beta
+New chat
+Search chats
+Images
+Videos
+Library
+New notebook
+A Comparative Audit of Indian Economic Growth
+Manmohan Singh vs Narendra Modi
+All notebooks
+ഗൂഗിൾ ഷീറ്റ് ഓട്ടോമാറ്റിക് അപ്ഡേറ്റ് വഴികൾ
+Algo trading
+GitHub APK ഡൗൺലോഡ് ചെയ്ത് ഇൻസ്റ്റാൾ ചെയ്യാം
+FMB Map Viewer with Search
+ithil fmb overlayer smooth ayi left, right, up, down move cheyyunnathinum, zoom/zoom out cheyyanum kazhiyunnathinu oru tool koodi cherkku, symbolukal mathi description venda
+സർവേ കാൽക്കുലേറ്റർ ഏരിയ കോഡ് മാറ്റം
+സർവേ കാൽക്കുലേറ്റർ ഏരിയ മാറ്റങ്ങൾ
+KMZ Overlay & Live GPS Viewer
+സിഡിയിലെ ഡിലീറ്റ് ചെയ്ത ഫയലുകൾ വീണ്ടെടുക്കാം
+lyrics size increase cheyyanum dicrease cheyyanum pxl number cherkkanam, animation speed kurakkanum kootanum speed number cherkkan kazhiyanam, photo add cheyy thal athu pala size ulla circle lil kooduthal photos pari parannu nadakkanam, Happy Birthday wishels add cheyyanum manoharamakkanum kazhiyanam,
+വീഡിയോ മേക്കർ കോഡ് അപ്ഡേറ്റ്
+ജന്മദിന ലൈറിക്സ് അനിമേഷൻ കോഡ്
+Cinematic South Asian Portrait
+WhatsApp DP Photo Creation
+Cinematic Park Portrait Generation
+Cinematic Luxury Poster Generation
+പ്രകടനപരത: അർത്ഥം
+South Asian Woman Garden Portrait
+സ്മാർട്ട് ചെയിൻ സർവേയർ CAD കോഡ്
+മാത്തമാറ്റിക്കൽ ഇക്വേഷൻ ലിറിക്സ് വീഡിയോ കോഡ്
+സ്മാർട്ട് ചെയിൻ സർവേയർ CAD ആപ്പ്
+പ്ലോട്ട് സർവേയും പാർട്ടിഷൻ ടൂളും
+ചെയിൻ സർവേ സ്കെച്ച് ആപ്പ് അവലോകനം
+ഗൂഗിൾ ഡ്രൈവ് ഫയലുകൾ വർഷം തിരിച്ച് ഡൗൺലോഡ് ചെയ്യാം
+ഗൂഗിൾ ഫോട്ടോസ് ഡൗൺലോഡ് ചെയ്യും വഴി
+ഡൗൺലോഡ് വേഗത വർദ്ധിപ്പിക്കാനുള്ള വഴികൾ
+മുരളീധരൻ പി: സംഖ്യാശാസ്ത്ര പൊരുത്ത വിശകലനം
+ഇൻസ്റ്റാഗ്രാം റീൽസ് പ്ലേ പ്രശ്ന പരിഹാരം
+ഗൂഗിൾ ഫയലുകൾ 50MB ആയി ഡൗൺലോഡ് ചെയ്യാൻ
+ADB ഇൻസ്റ്റലേഷൻ എറർ പരിഹാരം
+മോഹൻലാലിന്റെ ജന്മദിനം
+Conversation with Gemini
+ithil fmb overlayer smooth ayi left, right, up, down move cheyyunnathinum, zoom/zoom out cheyyanum kazhiyunnathinu oru tool koodi cherkku, symbolukal mathi description venda
+
+FMB Overlay സൂക്ഷ്മമായി അലൈൻ ചെയ്യാൻ Up, Down, Left, Right മൂവ്മെന്റ് ബട്ടണുകളും Scale + / - ടൂളുകളും മാത്രം ഉൾപ്പെടുത്തി അപ്ഡേറ്റ് ചെയ്ത കോഡ് താഴെ നൽകുന്നു:
+
+HTML
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Clean Map & GPS</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #map {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+    }
+
+    /* Bottom-Left Minimal Control Bar */
+    .compact-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 14px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 6px 14px;
+      border-radius: 40px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: #ffffff;
+      color: #5f6368;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .btn-circle svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+    .btn-circle.active {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+
+    .btn-folder {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f1f3f4;
+      color: #3c4043;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .btn-folder svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+    input[type="file"] {
+      display: none;
+    }
+
+    .slider-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .slider-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #444;
+      white-space: nowrap;
+    }
+    .slider-box input[type="range"] {
+      width: 80px;
+      height: 5px;
+      border-radius: 3px;
+      accent-color: #1a73e8;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Floating Overlay Fine-Tuning Pad (Right Side) */
+    .nudge-pad {
+      position: absolute;
+      bottom: 24px;
+      right: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 8px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .d-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 34px);
+      grid-template-rows: repeat(3, 34px);
+      gap: 4px;
+      justify-items: center;
+      align-items: center;
+    }
+    .scale-pad {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      padding-top: 6px;
+    }
+    .pad-btn {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: #f1f3f4;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #3c4043;
+      touch-action: manipulation;
+    }
+    .pad-btn:active {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+    .pad-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Live GPS Pulsing Blue Dot */
+    .gps-dot-container {
+      position: relative;
+      width: 22px;
+      height: 22px;
+    }
+    .gps-dot {
+      width: 13px;
+      height: 13px;
+      background: #1a73e8;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.9);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .gps-pulse {
+      width: 22px;
+      height: 22px;
+      background: rgba(26, 115, 232, 0.35);
+      border-radius: 50%;
+      animation: pulse-ring 1.8s infinite ease-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <div class="compact-bar">
+    <button class="btn-circle" id="gpsBtn">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+      </svg>
+    </button>
+
+    <label class="btn-folder" for="fileInput">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+      </svg>
+    </label>
+    <input type="file" id="fileInput" accept=".kmz,.kml,.png,.jpg,.jpeg" />
+
+    <div class="slider-box">
+      <span class="slider-label" id="opLabel">85%</span>
+      <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.85" />
+    </div>
+  </div>
+
+  <div class="nudge-pad" id="overlayControls">
+    <div class="d-pad">
+      <div></div>
+      <button class="pad-btn" onclick="nudgeOverlay(0.00003, 0)">
+        <svg viewBox="0 0 24 24"><path d="M12 4l-6 6h4v8h4v-8h4z"/></svg>
+      </button>
+      <div></div>
+
+      <button class="pad-btn" onclick="nudgeOverlay(0, -0.00003)">
+        <svg viewBox="0 0 24 24"><path d="M4 12l6-6v4h8v4h-8v4z"/></svg>
+      </button>
+      <div style="width: 8px; height: 8px; background: #bbb; border-radius: 50%;"></div>
+      <button class="pad-btn" onclick="nudgeOverlay(0, 0.00003)">
+        <svg viewBox="0 0 24 24"><path d="M20 12l-6 6v-4H6v-4h8V6z"/></svg>
+      </button>
+
+      <div></div>
+      <button class="pad-btn" onclick="nudgeOverlay(-0.00003, 0)">
+        <svg viewBox="0 0 24 24"><path d="M12 20l6-6h-4V6h-4v8H6z"/></svg>
+      </button>
+      <div></div>
+    </div>
+
+    <div class="scale-pad">
+      <button class="pad-btn" onclick="scaleOverlay(1.015)">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </button>
+      <button class="pad-btn" onclick="scaleOverlay(0.985)">
+        <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script>
+    const map = L.map('map', {
+      zoomControl: false,
+      maxZoom: 22
+    }).setView([11.3819, 75.7878], 15);
+
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+
+    const googleRoadmap = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    L.control.layers({
+      "Google Hybrid": googleHybrid,
+      "Google Road": googleRoadmap
+    }, null, { position: 'topright' }).addTo(map);
+
+    let currentOverlay = null;
+    let overlayBounds = null;
+    const opacitySlider = document.getElementById('opacitySlider');
+    const opLabel = document.getElementById('opLabel');
+
+    function updateBounds(newBounds) {
+      overlayBounds = newBounds;
+      if (currentOverlay) {
+        currentOverlay.setBounds(overlayBounds);
+      }
+    }
+
+    function nudgeOverlay(dLat, dLng) {
+      if (!overlayBounds) return;
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+      updateBounds(L.latLngBounds(
+        [sw.lat + dLat, sw.lng + dLng],
+        [ne.lat + dLat, ne.lng + dLng]
+      ));
+    }
+
+    function scaleOverlay(factor) {
+      if (!overlayBounds) return;
+      const center = overlayBounds.getCenter();
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+
+      const newSw = [
+        center.lat + (sw.lat - center.lat) * factor,
+        center.lng + (sw.lng - center.lng) * factor
+      ];
+      const newNe = [
+        center.lat + (ne.lat - center.lat) * factor,
+        center.lng + (ne.lng - center.lng) * factor
+      ];
+
+      updateBounds(L.latLngBounds(newSw, newNe));
+    }
+
+    document.getElementById('fileInput').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const fileName = file.name.toLowerCase();
+
+      try {
+        if (fileName.endsWith('.kmz')) {
+          const zip = await JSZip.loadAsync(file);
+          let kmlEntry = null;
+          zip.forEach((path, entry) => {
+            if (path.toLowerCase().endsWith('.kml')) kmlEntry = entry;
+          });
+
+          if (!kmlEntry) throw new Error("KML file missing in KMZ");
+
+          const kmlText = await kmlEntry.async('text');
+          const xml = new DOMParser().parseFromString(kmlText, 'text/xml');
+          const overlay = xml.getElementsByTagName('GroundOverlay')[0];
+          if (!overlay) throw new Error("GroundOverlay missing");
+
+          const href = overlay.getElementsByTagName('href')[0].textContent.trim();
+          const north = parseFloat(overlay.getElementsByTagName('north')[0].textContent);
+          const south = parseFloat(overlay.getElementsByTagName('south')[0].textContent);
+          const east = parseFloat(overlay.getElementsByTagName('east')[0].textContent);
+          const west = parseFloat(overlay.getElementsByTagName('west')[0].textContent);
+
+          const imgEntry = zip.file(href) || zip.file(href.replace(/^files\//, ''));
+          if (!imgEntry) throw new Error("Overlay image not found");
+
+          const blob = await imgEntry.async('blob');
+          const imgUrl = URL.createObjectURL(blob);
+          overlayBounds = L.latLngBounds([[south, west], [north, east]]);
+
+          if (currentOverlay) map.removeLayer(currentOverlay);
+          currentOverlay = L.imageOverlay(imgUrl, overlayBounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
+          map.fitBounds(overlayBounds);
+
+        } else if (file.type.startsWith('image/')) {
+          const imgUrl = URL.createObjectURL(file);
+          overlayBounds = map.getBounds();
+          if (currentOverlay) map.removeLayer(currentOverlay);
+          currentOverlay = L.imageOverlay(imgUrl, overlayBounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    opacitySlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      opLabel.innerText = Math.round(val * 100) + '%';
+      if (currentOverlay) currentOverlay.setOpacity(val);
+    });
+
+    let watchId = null;
+    let gpsMarker = null;
+    let accuracyCircle = null;
+    const gpsBtn = document.getElementById('gpsBtn');
+
+    const blueDotIcon = L.divIcon({
+      className: 'gps-dot-icon',
+      html: '<div class="gps-dot-container"><div class="gps-pulse"></div><div class="gps-dot"></div></div>',
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    });
+
+    gpsBtn.addEventListener('click', () => {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        gpsBtn.classList.remove('active');
+        if (gpsMarker) map.removeLayer(gpsMarker);
+        if (accuracyCircle) map.removeLayer(accuracyCircle);
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        alert("GPS not supported");
+        return;
+      }
+
+      gpsBtn.classList.add('active');
+      let firstFix = true;
+
+      watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const acc = pos.coords.accuracy;
+          const latlng = [lat, lng];
+
+          if (!gpsMarker) {
+            gpsMarker = L.marker(latlng, { icon: blueDotIcon, zIndexOffset: 1000 }).addTo(map);
+            accuracyCircle = L.circle(latlng, {
+              radius: acc,
+              color: '#1a73e8',
+              weight: 1,
+              fillColor: '#1a73e8',
+              fillOpacity: 0.12
+            }).addTo(map);
+          } else {
+            gpsMarker.setLatLng(latlng);
+            accuracyCircle.setLatLng(latlng);
+            accuracyCircle.setRadius(acc);
+          }
+
+          if (firstFix) {
+            map.setView(latlng, 18);
+            firstFix = false;
+          }
+        },
+        (err) => {
+          alert("GPS: " + err.message);
+          gpsBtn.classList.remove('active');
+        },
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+      );
+    });
+  </script>
+</body>
+</html>
+orikkal upload cheythal overlay athu delete button upyogichu delete cheyyum varekkum mapil undayirikkanam
+
+ഒരിക്കൽ അപ്‌ലോഡ് ചെയ്ത ഫയൽ ബ്രൗസർ റീഫ്രഷ് ചെയ്താലും ക്ലോസ് ചെയ്തു വീണ്ടും തുറന്നാലും നഷ്ടപ്പെടാതെ Local Storage (IndexedDB) വഴി സൂക്ഷിക്കുന്ന വിധത്തിലും, വേണ്ടപ്പോൾ മാത്രം മാറ്റാൻ ഒരു Delete (Trash Icon) ബട്ടൺ ചേർത്തുമുള്ള കോഡ് താഴെ നൽകുന്നു:
+
+HTML
 <!DOCTYPE html>
 <html lang="ml">
 <head>
@@ -548,3 +1048,580 @@
   </script>
 </body>
 </html>
+left right and zoom zoomout tool opecity toolinu mukalil varunnu, screenil oru tool mattonninu hide akaruthu up down left right movement buttons left side il oru ribbon il cherkkuka ribbon transperentum tool symbols kanan pattunna tharathilum cherkkuka
+
+താങ്കൾ ആവശ്യപ്പെട്ടതുപോലെ മാറ്റങ്ങൾ വരുത്തിയിട്ടുണ്ട്:
+
+ഓവർലാപ്പിംഗ് ഒഴിവാക്കി: താഴെയുള്ള Opacity സ്ലൈഡറും ബട്ടണുകളും മറയാതിരിക്കാൻ മൂവ്മെന്റ് / സൂം ടൂളുകളെ അവിടുന്ന് മാറ്റി.
+
+Left Side Transparent Ribbon: ഇടത് വശത്ത് ലംബമായി (vertical) സുതാര്യമായ ഒരു ബാർ (Glassmorphism / Blur ribbon) ക്രമീകരിച്ചു.
+
+ക്ലിയർ ഐക്കണുകൾ: ടൂളുകൾ വ്യക്തമായി കാണുന്നതിന് സർക്കുലർ ഡിസൈനും വ്യക്തമായ ചിഹ്നങ്ങളും (Up, Down, Left, Right, Zoom In, Zoom Out) നൽകിയിട്ടുണ്ട്.
+
+പെർസിസ്റ്റന്റ് & ഡിലീറ്റ്: FMB ഓവർലേ ഡിലീറ്റ് ചെയ്യുന്നത് വരെ മാപ്പിൽ തന്നെയുണ്ടാകും, കൂടാതെ മാപ്പ് കാഴ്ച മറയാതിരിക്കാൻ FMB ഉള്ളപ്പോൾ മാത്രമേ ഈ റിബൺ സ്ക്രീനിൽ ദൃശ്യമാകൂ.
+
+അപ്‌ഡേറ്റ് ചെയ്ത ഫയൽ താഴെ ലഭ്യമാണ്:
+
+HTML icon
+clean_map_gps
+ HTML 
+zooming zoom out oru clickil valare kurachu zoom ayal mathi
+
+Your HTML file is ready
+
+HTML icon
+clean_map_gps
+ HTML 
+ഓരോ ക്ലിക്കിലും വളരെ സൂക്ഷ്മമായി (Micro-step: 0.3% വീതം മാത്രം) സൂം ഇൻ / സൂം ഔട്ട് ആകുന്ന വിധത്തിലും, സ്ഥാനം മാറ്റുന്നതിനുള്ള മൂവ്‌മെന്റ് ബട്ടണുകൾ വളരെ പതിയെ (Gentle nudge) നീങ്ങുന്ന വിധത്തിലും കോഡ് അപ്‌ഡേറ്റ് ചെയ്തിട്ടുണ്ട്.
+
+
+
+
+Gemini is AI and can make mistakes.
+
+
+✕Merlin
+
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Clean Map & GPS</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #map {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+    }
+
+    /* Left Side Transparent Vertical Ribbon for Fine-Tuning Overlay */
+    .left-ribbon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: none; /* Overlay ഉള്ളപ്പോൾ മാത്രം കാണിക്കും */
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 10px 7px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    }
+
+    .ribbon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.88);
+      color: #202124;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .ribbon-btn:active {
+      background: #1a73e8;
+      color: #ffffff;
+      transform: scale(0.92);
+    }
+    .ribbon-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .ribbon-divider {
+      width: 24px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.18);
+      margin: 3px 0;
+    }
+
+    /* Bottom Floating Control Strip */
+    .compact-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 14px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 6px 14px;
+      border-radius: 40px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: #ffffff;
+      color: #5f6368;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .btn-circle svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+    .btn-circle.active {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+
+    .btn-folder, .btn-delete {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f1f3f4;
+      color: #3c4043;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      border: none;
+      transition: background 0.2s ease;
+    }
+    .btn-folder:hover {
+      background: #e8eaed;
+    }
+    .btn-delete {
+      display: none;
+      color: #d93025;
+    }
+    .btn-delete:hover {
+      background: #fce8e6;
+    }
+    .btn-folder svg, .btn-delete svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+    input[type="file"] {
+      display: none;
+    }
+
+    .slider-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .slider-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #444;
+      white-space: nowrap;
+    }
+    .slider-box input[type="range"] {
+      width: 80px;
+      height: 5px;
+      border-radius: 3px;
+      accent-color: #1a73e8;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Live GPS Pulsing Blue Dot */
+    .gps-dot-container {
+      position: relative;
+      width: 22px;
+      height: 22px;
+    }
+    .gps-dot {
+      width: 13px;
+      height: 13px;
+      background: #1a73e8;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.9);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .gps-pulse {
+      width: 22px;
+      height: 22px;
+      background: rgba(26, 115, 232, 0.35);
+      border-radius: 50%;
+      animation: pulse-ring 1.8s infinite ease-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- Transparent Left Side Ribbon for Overlay Controls -->
+  <div class="left-ribbon" id="overlayControls">
+    <!-- Up Move (Fine tuning) -->
+    <button class="ribbon-btn" onclick="nudgeOverlay(0.000015, 0)">
+      <svg viewBox="0 0 24 24"><path d="M12 4l-6 6h4v8h4v-8h4z"/></svg>
+    </button>
+    <!-- Down Move (Fine tuning) -->
+    <button class="ribbon-btn" onclick="nudgeOverlay(-0.000015, 0)">
+      <svg viewBox="0 0 24 24"><path d="M12 20l6-6h-4V6h-4v8H6z"/></svg>
+    </button>
+    <!-- Left Move (Fine tuning) -->
+    <button class="ribbon-btn" onclick="nudgeOverlay(0, -0.000015)">
+      <svg viewBox="0 0 24 24"><path d="M4 12l6-6v4h8v4h-8v4z"/></svg>
+    </button>
+    <!-- Right Move (Fine tuning) -->
+    <button class="ribbon-btn" onclick="nudgeOverlay(0, 0.000015)">
+      <svg viewBox="0 0 24 24"><path d="M20 12l-6 6v-4H6v-4h8V6z"/></svg>
+    </button>
+
+    <div class="ribbon-divider"></div>
+
+    <!-- Micro Zoom In (വളരെ കുറഞ്ഞ തോതിൽ സൂം ഇൻ - 0.3%) -->
+    <button class="ribbon-btn" onclick="scaleOverlay(1.003)">
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+    </button>
+    <!-- Micro Zoom Out (വളരെ കുറഞ്ഞ തോതിൽ സൂം ഔട്ട് - 0.3%) -->
+    <button class="ribbon-btn" onclick="scaleOverlay(0.997)">
+      <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+    </button>
+  </div>
+
+  <!-- Bottom Left Floating Control Strip -->
+  <div class="compact-bar">
+    <button class="btn-circle" id="gpsBtn">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+      </svg>
+    </button>
+
+    <!-- Upload Button -->
+    <label class="btn-folder" for="fileInput">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+      </svg>
+    </label>
+    <input type="file" id="fileInput" accept=".kmz,.kml,.png,.jpg,.jpeg" />
+
+    <!-- Delete Overlay Button -->
+    <button class="btn-delete" id="deleteBtn">
+      <svg viewBox="0 0 24 24">
+        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+      </svg>
+    </button>
+
+    <div class="slider-box">
+      <span class="slider-label" id="opLabel">85%</span>
+      <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.85" />
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script>
+    const map = L.map('map', {
+      zoomControl: false,
+      maxZoom: 22
+    }).setView([11.3819, 75.7878], 15);
+
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+
+    const googleRoadmap = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    L.control.layers({
+      "Google Hybrid": googleHybrid,
+      "Google Road": googleRoadmap
+    }, null, { position: 'topright' }).addTo(map);
+
+    let currentOverlay = null;
+    let overlayBounds = null;
+    let currentImageBlob = null;
+
+    const opacitySlider = document.getElementById('opacitySlider');
+    const opLabel = document.getElementById('opLabel');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const overlayControls = document.getElementById('overlayControls');
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('OverlayDB', 1);
+        req.onupgradeneeded = () => req.result.createObjectStore('overlays');
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveOverlayToDB(blob, bounds) {
+      const db = await openDB();
+      const tx = db.transaction('overlays', 'readwrite');
+      tx.objectStore('overlays').put({
+        blob: blob,
+        bounds: [
+          [bounds.getSouth(), bounds.getWest()],
+          [bounds.getNorth(), bounds.getEast()]
+        ]
+      }, 'saved_fmb');
+    }
+
+    async function getOverlayFromDB() {
+      const db = await openDB();
+      return new Promise((resolve) => {
+        const tx = db.transaction('overlays', 'readonly');
+        const req = tx.objectStore('overlays').get('saved_fmb');
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      });
+    }
+
+    async function deleteOverlayFromDB() {
+      const db = await openDB();
+      const tx = db.transaction('overlays', 'readwrite');
+      tx.objectStore('overlays').delete('saved_fmb');
+    }
+
+    function renderOverlay(url, bounds) {
+      if (currentOverlay) map.removeLayer(currentOverlay);
+      overlayBounds = bounds;
+      currentOverlay = L.imageOverlay(url, overlayBounds, { opacity: parseFloat(opacitySlider.value) }).addTo(map);
+      deleteBtn.style.display = 'flex';
+      overlayControls.style.display = 'flex';
+    }
+
+    function updateBounds(newBounds) {
+      overlayBounds = newBounds;
+      if (currentOverlay) {
+        currentOverlay.setBounds(overlayBounds);
+      }
+      if (currentImageBlob) {
+        saveOverlayToDB(currentImageBlob, overlayBounds);
+      }
+    }
+
+    function nudgeOverlay(dLat, dLng) {
+      if (!overlayBounds) return;
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+      updateBounds(L.latLngBounds(
+        [sw.lat + dLat, sw.lng + dLng],
+        [ne.lat + dLat, ne.lng + dLng]
+      ));
+    }
+
+    function scaleOverlay(factor) {
+      if (!overlayBounds) return;
+      const center = overlayBounds.getCenter();
+      const sw = overlayBounds.getSouthWest();
+      const ne = overlayBounds.getNorthEast();
+
+      const newSw = [
+        center.lat + (sw.lat - center.lat) * factor,
+        center.lng + (sw.lng - center.lng) * factor
+      ];
+      const newNe = [
+        center.lat + (ne.lat - center.lat) * factor,
+        center.lng + (ne.lng - center.lng) * factor
+      ];
+
+      updateBounds(L.latLngBounds(newSw, newNe));
+    }
+
+    document.getElementById('fileInput').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const fileName = file.name.toLowerCase();
+
+      try {
+        if (fileName.endsWith('.kmz')) {
+          const zip = await JSZip.loadAsync(file);
+          let kmlEntry = null;
+          zip.forEach((path, entry) => {
+            if (path.toLowerCase().endsWith('.kml')) kmlEntry = entry;
+          });
+
+          if (!kmlEntry) throw new Error("KML file missing in KMZ");
+
+          const kmlText = await kmlEntry.async('text');
+          const xml = new DOMParser().parseFromString(kmlText, 'text/xml');
+          const overlay = xml.getElementsByTagName('GroundOverlay')[0];
+          if (!overlay) throw new Error("GroundOverlay missing");
+
+          const href = overlay.getElementsByTagName('href')[0].textContent.trim();
+          const north = parseFloat(overlay.getElementsByTagName('north')[0].textContent);
+          const south = parseFloat(overlay.getElementsByTagName('south')[0].textContent);
+          const east = parseFloat(overlay.getElementsByTagName('east')[0].textContent);
+          const west = parseFloat(overlay.getElementsByTagName('west')[0].textContent);
+
+          const imgEntry = zip.file(href) || zip.file(href.replace(/^files\//, ''));
+          if (!imgEntry) throw new Error("Overlay image not found");
+
+          currentImageBlob = await imgEntry.async('blob');
+          const imgUrl = URL.createObjectURL(currentImageBlob);
+          const b = L.latLngBounds([[south, west], [north, east]]);
+
+          renderOverlay(imgUrl, b);
+          map.fitBounds(b);
+          saveOverlayToDB(currentImageBlob, b);
+
+        } else if (file.type.startsWith('image/')) {
+          currentImageBlob = file;
+          const imgUrl = URL.createObjectURL(file);
+          const b = map.getBounds();
+          renderOverlay(imgUrl, b);
+          saveOverlayToDB(currentImageBlob, b);
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    deleteBtn.addEventListener('click', async () => {
+      if (currentOverlay) {
+        map.removeLayer(currentOverlay);
+        currentOverlay = null;
+        overlayBounds = null;
+        currentImageBlob = null;
+        await deleteOverlayFromDB();
+        deleteBtn.style.display = 'none';
+        overlayControls.style.display = 'none';
+        document.getElementById('fileInput').value = '';
+      }
+    });
+
+    window.addEventListener('load', async () => {
+      try {
+        const saved = await getOverlayFromDB();
+        if (saved && saved.blob && saved.bounds) {
+          currentImageBlob = saved.blob;
+          const imgUrl = URL.createObjectURL(saved.blob);
+          const b = L.latLngBounds(saved.bounds);
+          renderOverlay(imgUrl, b);
+          map.fitBounds(b);
+        }
+      } catch (e) {
+        console.error("Could not load stored overlay", e);
+      }
+    });
+
+    opacitySlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      opLabel.innerText = Math.round(val * 100) + '%';
+      if (currentOverlay) currentOverlay.setOpacity(val);
+    });
+
+    let watchId = null;
+    let gpsMarker = null;
+    let accuracyCircle = null;
+    const gpsBtn = document.getElementById('gpsBtn');
+
+    const blueDotIcon = L.divIcon({
+      className: 'gps-dot-icon',
+      html: '<div class="gps-dot-container"><div class="gps-pulse"></div><div class="gps-dot"></div></div>',
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    });
+
+    gpsBtn.addEventListener('click', () => {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        gpsBtn.classList.remove('active');
+        if (gpsMarker) map.removeLayer(gpsMarker);
+        if (accuracyCircle) map.removeLayer(accuracyCircle);
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        alert("GPS not supported");
+        return;
+      }
+
+      gpsBtn.classList.add('active');
+      let firstFix = true;
+
+      watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const acc = pos.coords.accuracy;
+          const latlng = [lat, lng];
+
+          if (!gpsMarker) {
+            gpsMarker = L.marker(latlng, { icon: blueDotIcon, zIndexOffset: 1000 }).addTo(map);
+            accuracyCircle = L.circle(latlng, {
+              radius: acc,
+              color: '#1a73e8',
+              weight: 1,
+              fillColor: '#1a73e8',
+              fillOpacity: 0.12
+            }).addTo(map);
+          } else {
+            gpsMarker.setLatLng(latlng);
+            accuracyCircle.setLatLng(latlng);
+            accuracyCircle.setRadius(acc);
+          }
+
+          if (firstFix) {
+            map.setView(latlng, 18);
+            firstFix = false;
+          }
+        },
+        (err) => {
+          alert("GPS: " + err.message);
+          gpsBtn.classList.remove('active');
+        },
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+      );
+    });
+  </script>
+</body>
+</html>
+clean_map_gps.html
+Displaying clean_map_gps.html.
