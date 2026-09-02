@@ -36,17 +36,17 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.92);
-      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 6px 14px;
       border-radius: 40px;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
       backdrop-filter: blur(6px);
     }
 
-    /* Circular GPS Button like Google Maps */
+    /* Circular GPS Button (Google Maps Style) */
     .btn-circle {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: none;
       background: #ffffff;
@@ -95,18 +95,25 @@
       display: none;
     }
 
-    /* Compact Slider */
+    /* Opacity Slider Container with Label */
     .slider-box {
       display: flex;
       align-items: center;
-      width: 90px;
+      gap: 6px;
+    }
+    .slider-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #444;
+      white-space: nowrap;
     }
     .slider-box input[type="range"] {
-      width: 100%;
+      width: 80px;
       height: 5px;
       border-radius: 3px;
       accent-color: #1a73e8;
       outline: none;
+      cursor: pointer;
     }
 
     /* Live GPS Pulsing Blue Dot */
@@ -164,8 +171,9 @@
     </label>
     <input type="file" id="fileInput" accept=".kmz,.kml,.png,.jpg,.jpeg" />
 
-    <!-- Compact Slider for Overlay Opacity -->
-    <div class="slider-box" title="Opacity">
+    <!-- Sketch Opacity Slider with Live Percentage -->
+    <div class="slider-box" title="Sketch Opacity">
+      <span class="slider-label" id="opLabel">85%</span>
       <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.85" />
     </div>
   </div>
@@ -174,7 +182,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <script>
-    // 1. Map Setup (Google Hybrid & Roads Only)
+    // 1. Map Setup (Google Hybrid & Google Road)
     const map = L.map('map', {
       zoomControl: false,
       maxZoom: 22
@@ -198,6 +206,7 @@
     // 2. KMZ & Image Parser
     let currentOverlay = null;
     const opacitySlider = document.getElementById('opacitySlider');
+    const opLabel = document.getElementById('opLabel');
 
     document.getElementById('fileInput').addEventListener('change', async function(e) {
       const file = e.target.files[0];
@@ -249,7 +258,9 @@
     });
 
     opacitySlider.addEventListener('input', (e) => {
-      if (currentOverlay) currentOverlay.setOpacity(parseFloat(e.target.value));
+      const val = parseFloat(e.target.value);
+      opLabel.innerText = Math.round(val * 100) + '%';
+      if (currentOverlay) currentOverlay.setOpacity(val);
     });
 
     // 3. Google Maps Style High Accuracy Blue Dot GPS
